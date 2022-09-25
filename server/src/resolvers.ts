@@ -4,7 +4,13 @@ interface ProductInput {
   id: string;
 }
 export const resolvers = {
-  Query: {},
+  Query: {
+    // Get all products
+    products: async () => {
+      const products = await Product.find();
+      return products;
+    },
+  },
   Mutation: {
     // Create product
     createProduct: async (_: any, args: ProductInput) => {
