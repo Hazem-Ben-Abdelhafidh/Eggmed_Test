@@ -1,25 +1,40 @@
 import Product, { IProduct } from "./models/productModel";
-
+interface ProductInput {
+  productInput: IProduct;
+  id: string;
+}
 export const resolvers = {
   Query: {},
   Mutation: {
-    createProduct: async (
-      _: any,
-      { productInput }: { productInput: IProduct }
-    ) => {
+    // Create product
+    createProduct: async (_: any, args: ProductInput) => {
       const product = await Product.create({
-        name: productInput.name,
-        price: productInput.price,
-        description: productInput.description,
+        name: args.productInput.name,
+        price: args.productInput.price,
+        description: args.productInput.description,
       });
       return {
         id: product.id,
-        ...product,
+        ...product?._doc,
       };
     },
-    deleteProduct: async (_: any, { id }: { id: string }) => {
-      const wasDeleted = (await Product.deleteOne({ _id: id })).deletedCount;
+    // Delete product
+    deleteProduct: async (_: any, args: ProductInput) => {
+      const wasDeleted = (await Product.deleteOne({ _id: args.id }))
+        .deletedCount;
       return wasDeleted;
+    },
+    // Update product
+    updateProduct: async (_: any, args: ProductInput) => {
+      console.log(args.id);
+      console.log(args.productInput);
+      const updatedProduct = await Product.findByIdAndUpdate(args.id, {
+        ...args.productInput,
+      });
+      return {
+        id: updatedProduct?.id,
+        ...updatedProduct?._doc,
+      };
     },
   },
 };
