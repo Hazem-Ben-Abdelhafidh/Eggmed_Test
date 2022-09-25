@@ -10,6 +10,14 @@ export const resolvers = {
       const products = await Product.find();
       return products;
     },
+    // Get One product
+    product: async (_: any, args: ProductInput) => {
+      const product = await Product.findById(args.id);
+      return {
+        id: product?.id,
+        ...product?._doc,
+      };
+    },
   },
   Mutation: {
     // Create product
