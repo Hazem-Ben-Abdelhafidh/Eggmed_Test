@@ -17,6 +17,9 @@ export const resolvers = {
         ...product,
       };
     },
-    deleteProduct: async (_: any) => {},
+    deleteProduct: async (_: any, { id }: { id: string }) => {
+      const wasDeleted = (await Product.deleteOne({ _id: id })).deletedCount;
+      return wasDeleted;
+    },
   },
 };
