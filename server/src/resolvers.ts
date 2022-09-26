@@ -31,7 +31,6 @@ export const resolvers = {
         price: args.price,
         description: args.description,
       });
-      console.log(product);
       return {
         id: product.id,
         ...product?._doc,
@@ -44,10 +43,14 @@ export const resolvers = {
       return wasDeleted;
     },
     // Update product
-    updateProduct: async (_: any, args: ProductInput) => {
+    updateProduct: async (_: any, args: IProduct) => {
+      console.log(args);
       const updatedProduct = await Product.findByIdAndUpdate(args.id, {
-        ...args.productInput,
+        name: args.name,
+        price: args.price,
+        description: args.description,
       });
+      console.log(updatedProduct);
       return {
         id: updatedProduct?.id,
         ...updatedProduct?._doc,

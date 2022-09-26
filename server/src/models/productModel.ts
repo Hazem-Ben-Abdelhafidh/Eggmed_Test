@@ -11,12 +11,10 @@ const productSchema = new Schema<IProduct>({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
   price: {
     type: Number,
     required: true,
-    unique: true,
   },
   description: {
     type: String,

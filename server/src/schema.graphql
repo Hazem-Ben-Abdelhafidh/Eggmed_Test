@@ -19,5 +19,10 @@ type Query {
 type Mutation {
   createProduct(name: String!, price: Int!, description: String): Product
   deleteProduct(id: ID!): Boolean
-  updateProduct(id: ID!, productInput: ProductInput): Product!
+  updateProduct(
+    id: ID!
+    name: String
+    price: Int
+    description: String
+  ): Product!
 }
