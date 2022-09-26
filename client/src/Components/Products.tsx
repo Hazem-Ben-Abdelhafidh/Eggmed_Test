@@ -17,7 +17,7 @@ const Products = () => {
     )
 
     return (
-        <Box>
+        <Box sx={{ width: "100%" }}>
             <Grid container my={6} rowSpacing={2} columnSpacing={1}>
                 {displayedProducts}
             </Grid>

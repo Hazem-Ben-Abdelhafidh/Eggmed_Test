@@ -10,7 +10,7 @@ type Props = {
 const Product = (props: Props) => {
     return (
         <Grid item xs={6}>
-            <Card >
+            <Card sx={{ overflowX: "scroll" }}>
                 <CardContent>
                     <Typography variant="h5">
                         {props.name}
