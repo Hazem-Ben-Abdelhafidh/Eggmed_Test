@@ -11,8 +11,11 @@ export const resolvers = {
       return products;
     },
     // Get One product
-    product: async (_: any, args: ProductInput) => {
+    product: async (_: any, args: Omit<ProductInput, "productInput">) => {
       const product = await Product.findById(args.id);
+      if (!product) {
+        throw new Error("not found");
+      }
       return {
         id: product?.id,
         ...product?._doc,
@@ -21,27 +24,27 @@ export const resolvers = {
   },
   Mutation: {
     // Create product
-    createProduct: async (_: any, args: ProductInput) => {
+    createProduct: async (_: any, args: IProduct) => {
+      console.log(args);
       const product = await Product.create({
-        name: args.productInput.name,
-        price: args.productInput.price,
-        description: args.productInput.description,
+        name: args.name,
+        price: args.price,
+        description: args.description,
       });
+      console.log(product);
       return {
         id: product.id,
         ...product?._doc,
       };
     },
     // Delete product
-    deleteProduct: async (_: any, args: ProductInput) => {
+    deleteProduct: async (_: any, args: Omit<ProductInput, "productInput">) => {
       const wasDeleted = (await Product.deleteOne({ _id: args.id }))
         .deletedCount;
       return wasDeleted;
     },
     // Update product
     updateProduct: async (_: any, args: ProductInput) => {
-      console.log(args.id);
-      console.log(args.productInput);
       const updatedProduct = await Product.findByIdAndUpdate(args.id, {
         ...args.productInput,
       });
